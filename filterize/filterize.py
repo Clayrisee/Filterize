@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import dlib
-# import matplotlib.pyplot as plt
 import time
 from math import hypot
 import os
