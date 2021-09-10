@@ -5,14 +5,17 @@ import time
 from math import hypot
 import os
 
+BASE_DIR = os.getcwd()
+PRETRAIN_MODEL_DIR = os.path.join(BASE_DIR,'pretrain_model')
+FILTER_NOSE_DIR = os.path.join(BASE_DIR,'filterize','filter_img')
 
 class Filterize:
     def __init__(
       self, 
       k=7,
-      pretrain_haarscascade='../filterize/pretrain_model/haarcascade_frontalface_default.xml',
-      pretrain_cnn='../filterize/pretrain_model/mmod_human_face_detector.dat',
-      pretrain_dlib_shape_predictor='../filterize/pretrain_model/shape_predictor_68_face_landmarks.dat'
+      pretrain_haarscascade=os.path.join(PRETRAIN_MODEL_DIR, 'haarcascade_frontalface_default.xml'),
+      pretrain_cnn=os.path.join(PRETRAIN_MODEL_DIR,'mmod_human_face_detector.dat'),
+      pretrain_dlib_shape_predictor=os.path.join(PRETRAIN_MODEL_DIR,'shape_predictor_68_face_landmarks.dat'),
                ):
         self.k = k
         self.pretrain_haarscascade = pretrain_haarscascade
@@ -105,11 +108,14 @@ class Filterize:
         """
         img = cv2.imread(image)
         if nose_filter == 'pig':
-            nose_img = cv2.imread("../filterize/filterize/filter_img/pig_nose.png")
+            img_path = os.path.join(FILTER_NOSE_DIR, 'pig_nose.png')
+            nose_img = cv2.imread(img_path)
         elif nose_filter == 'cat':
-            nose_img = cv2.imread("../filterize/filterize/filter_img/cat_nose.png")
+            img_path = os.path.join(FILTER_NOSE_DIR, 'cat_nose.png')
+            nose_img = cv2.imread(img_path)
         elif nose_filter == 'dog':
-            nose_img = cv2.imread("../filterize/filterize/filter_img/dog_nose.png")
+            img_path = os.path.join(FILTER_NOSE_DIR, 'dog_nose.png')
+            nose_img = cv2.imread(img_path)
         else:
             raise ValueError("Nose filter not found, please input only cat / pig")
         nose_mask = np.zeros(img.shape[:2], dtype='uint8')
